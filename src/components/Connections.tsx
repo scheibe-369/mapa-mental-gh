@@ -116,6 +116,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
         height: '100%',
         overflow: 'visible',
         zIndex: 5,
+        pointerEvents: 'none', // Allow clicks to pass through to the background
       }}
     >
       <defs>
@@ -250,7 +251,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
                   fill="#C4B5FD"
                   stroke="#7C3AED"
                   strokeWidth={2}
-                  style={{ cursor: 'move', filter: 'drop-shadow(0 0 5px rgba(124,58,237,0.5))' }}
+                  style={{ cursor: 'move', filter: 'drop-shadow(0 0 5px rgba(124,58,237,0.5))', pointerEvents: 'auto' }}
                   onPointerDown={(e) => {
                     e.stopPropagation();
                     onEdgeHandleDown(e, edge.id, 'source');
@@ -291,7 +292,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
                   fill="#A78BFA"
                   stroke="#7C3AED"
                   strokeWidth={1.5}
-                  style={{ cursor: 'move', filter: 'drop-shadow(0 0 5px rgba(124,58,237,0.3))' }}
+                  style={{ cursor: 'move', filter: 'drop-shadow(0 0 5px rgba(124,58,237,0.3))', pointerEvents: 'auto' }}
                   onPointerDown={(e) => {
                     e.stopPropagation();
                     onEdgeMidpointDown(e, edge.id);
@@ -306,10 +307,10 @@ export const Connections: React.FC<ConnectionsProps> = ({
                     onPointerDown={(e) => e.stopPropagation()}
                     onPointerEnter={() => setHoveredEdgeId(edge.id)}
                     onPointerLeave={() => setHoveredEdgeId(null)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   >
-                    <circle r="12" fill="#EF4444" stroke="white" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.6))' }} />
-                    <path d="M -5,-5 L 5,5 M -5,5 L 5,-5" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                    <circle r="9" fill="rgba(30, 30, 30, 0.85)" stroke="#6366F1" strokeWidth="1" />
+                    <path d="M -3.5,-3.5 L 3.5,3.5 M -3.5,3.5 L 3.5,-3.5" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
                   </g>
                 )}
               </>

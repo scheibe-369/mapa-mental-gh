@@ -887,6 +887,13 @@ function App() {
                 nodeSizes={nodeSizes}
                 onEdgeHandleDown={handleEdgeHandleDown}
                 onEdgeMidpointDown={handleEdgeMidpointDown}
+                onDeleteEdge={(id) => {
+                  push({
+                    nodes: nodesRef.current,
+                    edges: edgesRef.current.filter(e => e.id !== id)
+                  });
+                  setSelectedEdgeId(null);
+                }}
               />
 
               {displayNodes.map(node => (

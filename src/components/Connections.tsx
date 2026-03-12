@@ -87,6 +87,7 @@ interface ConnectionsProps {
   nodeSizes: Record<string, { w: number; h: number }>;
   onEdgeHandleDown: (e: React.PointerEvent, edgeId: string, type: 'source' | 'target') => void;
   onEdgeMidpointDown: (e: React.PointerEvent, edgeId: string) => void;
+  onDeleteEdge?: (id: string) => void;
 }
 
 export const Connections: React.FC<ConnectionsProps> = ({
@@ -97,6 +98,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
   nodeSizes,
   onEdgeHandleDown,
   onEdgeMidpointDown,
+  onDeleteEdge,
 }) => {
   const nodeMap = new Map(nodes.map(n => [n.id, n]));
 
@@ -276,7 +278,6 @@ export const Connections: React.FC<ConnectionsProps> = ({
                   );
                 })()}
                 
-                {/* Midpoint handle for manual curvature */}
                 <circle
                   cx={edge.midpoint?.x ?? mx}
                   cy={edge.midpoint?.y ?? my}
@@ -290,6 +291,19 @@ export const Connections: React.FC<ConnectionsProps> = ({
                     onEdgeMidpointDown(e, edge.id);
                   }}
                 />
+
+                {/* Delete button at midpoint */}
+                {onDeleteEdge && (
+                  <g 
+                    transform={`translate(${edge.midpoint?.x ?? mx}, ${edge.midpoint?.y ?? (my - 25)})`}
+                    onClick={(e) => { e.stopPropagation(); onDeleteEdge(edge.id); }}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <circle r="12" fill="#EF4444" stroke="white" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.6))' }} />
+                    <path d="M -5,-5 L 5,5 M -5,5 L 5,-5" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  </g>
+                )}
               </>
             )}
 

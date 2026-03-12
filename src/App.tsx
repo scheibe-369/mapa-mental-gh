@@ -502,7 +502,20 @@ function App() {
     const tgtNode = nodesRef.current.find(n => n.id === edge.target);
     if (!srcNode || !tgtNode) return;
 
+    let hasStartedDragging = false;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const DRAG_THRESHOLD = 5; // Pixels
+
     const onMove = (ev: PointerEvent) => {
+      if (!hasStartedDragging) {
+        const dist = Math.sqrt(Math.pow(ev.clientX - startX, 2) + Math.pow(ev.clientY - startY, 2));
+        if (dist > DRAG_THRESHOLD) {
+          hasStartedDragging = true;
+        } else {
+          return;
+        }
+      }
       const c = toCanvas(ev.clientX, ev.clientY);
       setLiveEdgeOverride(edgesRef.current.map(ed => ed.id === edgeId ? { ...ed, midpoint: { x: c.x, y: c.y } } : ed));
     };

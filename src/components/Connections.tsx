@@ -100,6 +100,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
   onEdgeMidpointDown,
   onDeleteEdge,
 }) => {
+  const [hoveredEdgeId, setHoveredEdgeId] = React.useState<string | null>(null);
   const nodeMap = new Map(nodes.map(n => [n.id, n]));
 
   return (
@@ -177,6 +178,8 @@ export const Connections: React.FC<ConnectionsProps> = ({
                 e.stopPropagation();
                 onEdgeMidpointDown(e, edge.id);
               }}
+              onMouseEnter={() => setHoveredEdgeId(edge.id)}
+              onMouseLeave={() => setHoveredEdgeId(null)}
               className="edge-hit-area"
             />
 
@@ -293,11 +296,13 @@ export const Connections: React.FC<ConnectionsProps> = ({
                 />
 
                 {/* Delete button at midpoint */}
-                {onDeleteEdge && (
+                {onDeleteEdge && (isSelected || hoveredEdgeId === edge.id) && (
                   <g 
                     transform={`translate(${edge.midpoint?.x ?? mx}, ${edge.midpoint?.y ?? (my - 25)})`}
                     onClick={(e) => { e.stopPropagation(); onDeleteEdge(edge.id); }}
                     onPointerDown={(e) => e.stopPropagation()}
+                    onMouseEnter={() => setHoveredEdgeId(edge.id)}
+                    onMouseLeave={() => setHoveredEdgeId(null)}
                     style={{ cursor: 'pointer' }}
                   >
                     <circle r="12" fill="#EF4444" stroke="white" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.6))' }} />

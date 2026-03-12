@@ -1,0 +1,40 @@
+.canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: var(--bg-deep-black);
+}
+
+.canvas-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: radial-gradient(var(--node-border) 1px, transparent 1px);
+  opacity: 0.3;
+}
+
+.canvas-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.selection-box {
+  position: absolute;
+  border: 2px solid var(--accent-purple);
+  background-color: rgba(124, 58, 237, 0.15);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+  pointer-events: none;
+  z-index: 1000;
+  border-radius: 2px;
+}

@@ -1,0 +1,39 @@
+:root {
+  --bg-deep-black: #1A1A1A;
+  --bg-panel: #242424;
+  --accent-purple: #7C3AED;
+  --accent-purple-glow: rgba(124, 58, 237, 0.4);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --node-border: #444444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  background-color: var(--bg-deep-black);
+  color: var(--text-primary);
+  overflow: hidden; /* For infinite canvas setup */
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Reusable Futuristic Classes */
+.glow-effect {
+  box-shadow: 0 0 15px color-mix(in srgb, var(--node-color, var(--accent-purple)) 40%, transparent);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 25px color-mix(in srgb, var(--node-color, var(--accent-purple)) 80%, transparent);
+}

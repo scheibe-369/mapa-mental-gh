@@ -1,0 +1,8 @@
+
+> temp_frontend@0.0.0 build
+> tsc -b && vite build
+
+src/App.tsx(4,20): error TS1484: 'NodeData' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/App.tsx(5,23): error TS1484: 'Edge' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/App.tsx(16,17): error TS6133: 'setEdges' is declared but its value is never read.
+src/components/Connections.tsx(2,10): error TS1484: 'NodeData' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.

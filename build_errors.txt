@@ -1,0 +1,5 @@
+﻿
+> temp_frontend@0.0.0 build
+> tsc -b && vite build
+
+src/App.tsx(438,9): error TS2552: Cannot find name 'setSelectedNodeId'. Did you mean 'setSelectedNodeIds'?

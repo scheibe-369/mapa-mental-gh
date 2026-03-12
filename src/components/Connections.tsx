@@ -88,19 +88,22 @@ interface ConnectionsProps {
   onEdgeHandleDown: (e: React.PointerEvent, edgeId: string, type: 'source' | 'target') => void;
   onEdgeMidpointDown: (e: React.PointerEvent, edgeId: string) => void;
   onDeleteEdge?: (id: string) => void;
+  hoveredEdgeId: string | null;
+  setHoveredEdgeId: (id: string | null) => void;
 }
 
 export const Connections: React.FC<ConnectionsProps> = ({
   nodes,
   edges,
   selectedEdgeId,
+  hoveredEdgeId,
   previewLine,
   nodeSizes,
   onEdgeHandleDown,
   onEdgeMidpointDown,
   onDeleteEdge,
+  setHoveredEdgeId,
 }) => {
-  const [hoveredEdgeId, setHoveredEdgeId] = React.useState<string | null>(null);
   const nodeMap = new Map(nodes.map(n => [n.id, n]));
 
   return (
@@ -112,7 +115,7 @@ export const Connections: React.FC<ConnectionsProps> = ({
         width: '100%',
         height: '100%',
         overflow: 'visible',
-        zIndex: 1,
+        zIndex: 5,
       }}
     >
       <defs>
@@ -170,16 +173,16 @@ export const Connections: React.FC<ConnectionsProps> = ({
             {/* Wide invisible hit area */}
             <path
               d={path}
-              stroke="transparent"
-              strokeWidth={20}
+              stroke="rgba(0,0,0,0.001)"
+              strokeWidth={25}
               fill="none"
               style={{ cursor: 'grab', pointerEvents: 'stroke' }}
               onPointerDown={(e) => {
                 e.stopPropagation();
                 onEdgeMidpointDown(e, edge.id);
               }}
-              onMouseEnter={() => setHoveredEdgeId(edge.id)}
-              onMouseLeave={() => setHoveredEdgeId(null)}
+              onPointerEnter={() => setHoveredEdgeId(edge.id)}
+              onPointerLeave={() => setHoveredEdgeId(null)}
               className="edge-hit-area"
             />
 
@@ -301,8 +304,8 @@ export const Connections: React.FC<ConnectionsProps> = ({
                     transform={`translate(${edge.midpoint?.x ?? mx}, ${edge.midpoint?.y ?? (my - 25)})`}
                     onClick={(e) => { e.stopPropagation(); onDeleteEdge(edge.id); }}
                     onPointerDown={(e) => e.stopPropagation()}
-                    onMouseEnter={() => setHoveredEdgeId(edge.id)}
-                    onMouseLeave={() => setHoveredEdgeId(null)}
+                    onPointerEnter={() => setHoveredEdgeId(edge.id)}
+                    onPointerLeave={() => setHoveredEdgeId(null)}
                     style={{ cursor: 'pointer' }}
                   >
                     <circle r="12" fill="#EF4444" stroke="white" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.6))' }} />

@@ -485,6 +485,8 @@ function App() {
     document.addEventListener('pointerup', onUp);
   }, [push]);
 
+  const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
+
   const handleEdgeMidpointDown = useCallback((e: React.PointerEvent, edgeId: string) => {
     e.preventDefault();
     e.stopPropagation();
@@ -505,7 +507,7 @@ function App() {
     let hasStartedDragging = false;
     const startX = e.clientX;
     const startY = e.clientY;
-    const DRAG_THRESHOLD = 5; // Pixels
+    const DRAG_THRESHOLD = 8; // Increased for better stability
 
     const onMove = (ev: PointerEvent) => {
       if (!hasStartedDragging) {
@@ -523,12 +525,16 @@ function App() {
     const onUp = (ev: PointerEvent) => {
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
-      const c = toCanvas(ev.clientX, ev.clientY);
-      push({
-        nodes: nodesRef.current,
-        edges: edgesRef.current.map(ed => ed.id === edgeId ? { ...ed, midpoint: { x: c.x, y: c.y } } : ed)
-      });
+      
+      if (hasStartedDragging) {
+        const c = toCanvas(ev.clientX, ev.clientY);
+        push({
+          nodes: nodesRef.current,
+          edges: edgesRef.current.map(ed => ed.id === edgeId ? { ...ed, midpoint: { x: c.x, y: c.y } } : ed)
+        });
+      }
       setLiveEdgeOverride(null);
+      setHoveredEdgeId(null); // Clear hovered state on pointer up
     };
 
     document.addEventListener('pointermove', onMove);
@@ -896,6 +902,7 @@ function App() {
                 nodes={displayNodes}
                 edges={displayEdges}
                 selectedEdgeId={selectedEdgeId}
+                hoveredEdgeId={hoveredEdgeId}
                 previewLine={previewLine}
                 nodeSizes={nodeSizes}
                 onEdgeHandleDown={handleEdgeHandleDown}
@@ -907,6 +914,7 @@ function App() {
                   });
                   setSelectedEdgeId(null);
                 }}
+                setHoveredEdgeId={setHoveredEdgeId}
               />
 
               {displayNodes.map(node => (
